@@ -1,3 +1,4 @@
 conf.py
 *.pyc
 todo.txt
+.idea
