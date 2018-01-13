@@ -38,11 +38,24 @@ async def on_message(message): #happens when a message is sent in any channel by
                         if commandPossible == True:
                             await client.send_message(message.channel, 'Recieved command from admin user')
                             if message.content.find('help') != -1:
-                              await commands.server_help(client, message, help_embed)
-                            return
+                                await commands.server_help(client, message, help_embed)
+                                return
+                            elif message.content.find('remove') != -1:
+                                if message.content.find('-') != -1:
+                                    msg = '{0.author.mention}, you can\'t remove negative messages.'.format(message)
+                                    await client.send_message(message.channel, msg)
+                                else:
+                                    try:
+                                        num = int(re.search('-?\d+', message.content).group())
+                                    except:
+                                        msg = '{0.author.mention}, that isn\'t a valid number of messages.'.format(message)
+                                        await client.send_message(message.channel, msg)
+                                        return
+                                    await commands.remove(client, message, num)
+                                return
+
                         else:
-                            i=i+1
-                            print('Incremented i'+str(i))
+                            pass
                 else:
                     commandPossible = False
                     msg = '{0.author.mention}, that isn\'t a valid command. Try running !help.'.format(message)
