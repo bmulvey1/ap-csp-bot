@@ -1,0 +1,4 @@
+python >= 3.5
+
+discord >=0.16.12
+regex>=2018.02.08 (OPTIONAL, replaces the standard Python module re)
