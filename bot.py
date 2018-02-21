@@ -17,8 +17,9 @@ async def on_ready():
 @client.event
 async def on_message(message): #happens when a message is sent in any channel by any user
     commandPossible = False
-    help_embed = commands.help_embed()
-    rules_embed = commands.rules_embed()
+    help_embed = commands.create_embed('help')
+    rules_embed = commands.create_embed('rules')
+    admin_help = commands.create_embed('admin_help')
     i = 0
     print (message.content)
     print ("sent by: " + str(message.author) + " in channel " + str(message.channel))    #placeholder
@@ -28,7 +29,8 @@ async def on_message(message): #happens when a message is sent in any channel by
     else:
         if str(message.content[0]) == str(conf.symbol):     #check for valid commands
             if ('Commander' in role_names):
-                print (str(message.author) + ' is a commander, admin commands allowed') #can run more powerful commands
+                print (str(message.author)+ ' is a commander, admin commands allowed') #can run more powerful commands
+                print(message.author)
                 if conf.DEBUG: print (role_names) #For debugging
                 for command in commands.admin_commandlist:
                     if message.content.find(command) != -1: #make sure the command is valid
@@ -36,9 +38,9 @@ async def on_message(message): #happens when a message is sent in any channel by
                         if conf.DEBUG: print(command)
                     else:
                         if commandPossible == True:
-                            await client.send_message(message.channel, 'Recieved command from admin user')
+                            if conf.DEBUG: await client.send_message(message.channel, 'Recieved command from admin user')
                             if message.content.find('help') != -1:
-                                await commands.server_embed(client, message, help_embed)
+                                await commands.server_embed(client, message, admin_help)
                                 return
                             elif message.content.find('rules') != -1:
                                 await commands.server_embed(client, message, rules_embed)
@@ -55,6 +57,9 @@ async def on_message(message): #happens when a message is sent in any channel by
                                         await client.send_message(message.channel, msg)
                                         return
                                     await commands.remove(client, message, num)
+                                return
+                            elif message.content.find('give_role'):
+                                await commands.give_role(client, message)
                                 return
 
 
