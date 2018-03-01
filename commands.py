@@ -2,7 +2,7 @@ import discord
 import conf
 
 user_commandlist = ['help', 'test', 'rules', 'placeholder']
-admin_commandlist = ['help', 'remove', 'rules', 'give_role', 'remove_role', 'placeholder']
+admin_commandlist = ['help', 'remove', 'rules', 'give_role', 'take_role', 'placeholder']
 
 
 async def remove(client, message, num):
@@ -40,15 +40,52 @@ async def give_role(client, message):
         msg = '{0.author.mention}, that isn\'t a valid role.'.format(message)
         await client.send_message(message.channel, msg)
     else:
-         await client.add_roles(member_name[user], role_name[dest_role])
-         msg = 'Gave role {0} to {1}'.format(dest_role, user)
-         await client.send_message(message.channel, msg)
+        await client.add_roles(member_name[user], role_name[dest_role])
+        msg = 'Gave role {0} to {1}'.format(dest_role, user)
+        await client.send_message(message.channel, msg)
+        msg1 = '{0.author} gave role {1} to {2}'.format(message, dest_role, user)
+        print (msg1)
     if conf.DEBUG:
         print(role_name)
         print(member_name)
         print(role)
         print(user)
         print(message.content.split(' ', 3))
+        print('Gave roles')
+
+async def remove_role(client, message):
+    user = message.content.split(' ', 3)[1]
+    dest_role = message.content.split(' ', 3)[2]
+    user_roles = message.author.roles
+    server_members = message.server.members
+    role_name = {}
+    member_name = {}
+    for role in user_roles:
+        role_name[role.name] = role
+    for member in server_members:
+        member_name[member.display_name] = member
+    if (user not in member_name) and (role not in role_name):
+        msg = '{0.author.mention}, that isn\'t a valid username or role.'.format(message)
+        await client.send_message(message.channel, msg)
+    elif user not in member_name:
+        msg = '{0.author.mention}, that isn\'t a valid username.'.format(message)
+        await client.send_message(message.channel, msg)
+    elif dest_role not in role_name:
+        msg = '{0.author.mention}, that isn\'t a valid role.'.format(message)
+        await client.send_message(message.channel, msg)
+    else:
+        await client.remove_roles(member_name[user], role_name[dest_role])
+        msg = 'Removed role {0} from {1}'.format(dest_role, user)
+        await client.send_message(message.channel, msg)
+        msg1 = '{0.author} took role {1} from {2}'.format(message, dest_role, user)
+        print(msg1)
+    if conf.DEBUG:
+        print(role_name)
+        print(member_name)
+        print(role)
+        print(user)
+        print(message.content.split(' ', 3))
+        print('Took roles')
 
 
 async def server_embed(client, message, embed):
@@ -70,5 +107,6 @@ def create_embed(type):
         embed.add_field(name='Help', value='!help: Shows this help embed', inline=False)
         embed.add_field(name='Test', value='!test: Does nothing', inline=False)
         embed.add_field(name='Remove', value='!remove *messages* : Removes specified number of messages, up to 100', inline=False)
-        embed.add_field(name='Give role', value='!give_role *user* *role* : Gives specified role to specified user',inline=False)
+        embed.add_field(name='Give role', value='!give_role *user* *role* : Gives specified role to specified user', inline=False)
+        embed.add_field(name='Remove role', value='!remove_role *user* *role* : Removes specified role from specified user', inline=False)
         return embed
