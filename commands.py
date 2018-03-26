@@ -1,8 +1,9 @@
 import discord
 import conf
+import time
 
 user_commandlist = ['help', 'test', 'rules', 'placeholder']
-admin_commandlist = ['help', 'remove', 'rules', 'give_role', 'take_role', 'placeholder']
+admin_commandlist = ['help', 'remove', 'rules', 'give_role', 'take_role', 'poll', 'placeholder']
 
 
 async def remove(client, message, num):
@@ -14,9 +15,12 @@ async def remove(client, message, num):
         try:
             await client.purge_from(message.channel, limit=num)
         except:
-            if conf.DEBUG: print ('Remove failed.')
+            if conf.DEBUG:
+                print ('Remove failed.')
+                msg = "Failed to remove messages"
+                await client.send_message(message.channel, msg)
             else:
-                pass
+                return
         print('Removed {} messages from {.channel}'.format(num, message))
 
 async def give_role(client, message):
@@ -110,3 +114,39 @@ def create_embed(type):
         embed.add_field(name='Give role', value='!give_role *user* *role* : Gives specified role to specified user', inline=False)
         embed.add_field(name='Remove role', value='!remove_role *user* *role* : Removes specified role from specified user', inline=False)
         return embed
+
+async def poll(client, message):
+    try:
+        text = message.content.split(' ', 4)[1]
+    except:
+        msg = "Please provide all fields necessary"
+        await client.send_message(message.channel, msg)
+        return
+    try:
+        emoji1 = message.content.split(' ', 4)[2]
+    except:
+        msg = "Please provide all fields necessary"
+        await client.send_message(message.channel, msg)
+        return
+    try:
+        emoji2 = message.content.split(' ', 4)[3]
+    except:
+        msg = "Please provide all fields necessary"
+        await client.send_message(message.channel, msg)
+        return
+    server_channels = message.server.channels
+    server_emoji = message.server.emojis
+    channels = {}
+    emojis = {}
+    for channel in server_channels:
+        channels[channel.name] = channel
+    for emoji in server_emoji:
+        emojis[emoji.name] = emoji
+    print(channels)
+    print(emojis)
+    await client.send_message(channels['polls'], text)
+    time.sleep(1)
+    bot_message = discord.utils.get(client.messages, content=text, author=client.user)
+    await client.add_reaction(bot_message, emoji1)
+    await client.add_reaction(bot_message, emoji2)
+    return

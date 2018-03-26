@@ -65,6 +65,9 @@ async def on_message(message): #runs when a message is sent in any channel by an
                             elif message.content.find('take_role') != -1:
                                 await commands.remove_role(client, message)
                                 return
+                            elif message.content.find('poll') != -1:
+                                await commands.poll(client, message)
+                                return
 
                         else:
                             pass
