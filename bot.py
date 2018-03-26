@@ -92,6 +92,9 @@ async def on_message(message): #runs when a message is sent in any channel by an
                             elif message.content.find('rules') != -1:
                                 await commands.server_embed(client, message, rules_embed)
                                 return
+                            elif message.content.find('poll') != -1:
+                                await commands.poll(client, message)
+                                return
 
                         else:
                            pass

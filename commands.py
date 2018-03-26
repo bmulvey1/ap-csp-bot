@@ -2,7 +2,7 @@ import discord
 import conf
 import time
 
-user_commandlist = ['help', 'test', 'rules', 'placeholder']
+user_commandlist = ['help', 'test', 'rules','poll', 'placeholder']
 admin_commandlist = ['help', 'remove', 'rules', 'give_role', 'take_role', 'poll', 'placeholder']
 
 
