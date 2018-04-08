@@ -1,3 +1,4 @@
+# don't commit files with names matching these to github
 conf.py
 *.pyc
 .idea
