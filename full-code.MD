@@ -1,6 +1,6 @@
-#Full program code
+# Full program code
 
-###bot.py
+### bot.py
 ```python
 try:
     import discord # the discordpy library was created by https://github.com/Rapptz/; licenced under the MIT license
@@ -118,7 +118,7 @@ async def on_message(message): #runs when a message is sent in any channel by an
 
 client.run(conf.key) # connect to Discord
 ```
-###conf.py
+### conf.py
 ```python
 key = 'Key goes here'
 #Token for bot account
@@ -127,7 +127,7 @@ symbol = '!'
 DEBUG = False
 #debug flag to print extra info in console
 ```
-###commands.py
+### commands.py
 ```python
 import discord # the discordpy library was created by https://github.com/Rapptz/; licenced under the MIT license
 import conf # file for configuration
@@ -296,7 +296,7 @@ async def poll(client, message): # Create poll in a poll channel
     await client.add_reaction(bot_message, emoji2) # Add other emoji to bot message
     return
 ```
-###requirements.txt
+### requirements.txt
 ```text
 python >= 3.5
 
@@ -304,7 +304,7 @@ discord >=0.16.12
 regex>=2018.02.08 (OPTIONAL, replaces the standard Python module re)
 ```
 
-###README.MD
+### README.MD
 ```markdown
 # ap-csp-bot
 ## Configuration
