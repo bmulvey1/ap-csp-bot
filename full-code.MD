@@ -6,7 +6,7 @@ try:
     import discord # the discordpy library was created by https://github.com/Rapptz/; licenced under the MIT license
 except:
     print('Please look at the README')
-import commands # to reduce visual complexity, commands are in this file
+import commands # to reduce complexity, commands are in this file
 try:
     import conf # file for configuration; does not exist by default to avoid commiting the bot key to GitHub
 except: # runs if the config file doesn't exist
@@ -146,14 +146,13 @@ async def remove(client, message, num): # Removes specified number of messages f
         try:
             await client.purge_from(message.channel, limit=num) # removes messages from channel
         except:
-            if conf.DEBUG:
-                print ('Remove failed.')
-                msg = "Failed to remove messages"
-                await client.send_message(message.channel, msg)
-                return
-            else:
-                print('Removed {} messages from {.channel}'.format(num, message))
-                return
+            if conf.DEBUG: print ('Remove failed.') 
+            msg = "Failed to remove messages"
+            await client.send_message(message.channel, msg)
+            return
+        else:
+            print('Removed {} messages from {.channel}'.format(num, message))
+            return
 
 
 async def give_role(client, message): # Gives a specified role to a specified user
