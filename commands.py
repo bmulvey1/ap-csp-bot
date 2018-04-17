@@ -15,14 +15,13 @@ async def remove(client, message, num): # Removes specified number of messages f
         try:
             await client.purge_from(message.channel, limit=num) # removes messages from channel
         except:
-            if conf.DEBUG:
-                print ('Remove failed.')
-                msg = "Failed to remove messages"
-                await client.send_message(message.channel, msg)
-                return
-            else:
-                print('Removed {} messages from {.channel}'.format(num, message))
-                return
+            if conf.DEBUG: print ('Remove failed.')
+            msg = "Failed to remove messages"
+            await client.send_message(message.channel, msg)
+            return
+        else:
+            print('Removed {} messages from {.channel}'.format(num, message))
+            return
 
 
 async def give_role(client, message): # Gives a specified role to a specified user
