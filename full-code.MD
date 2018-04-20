@@ -287,12 +287,11 @@ async def poll(client, message): # Create poll in a poll channel
         msg = "A poll with that text already exists, try looking at that poll or word yours differently"
         await client.send_message(message.channel, msg)
         return
-    if conf.DEBUG: print(channels)
-    await client.send_message(channels['polls'], text)
-    time.sleep(4) # Wait for message to be sent
-    bot_message = discord.utils.get(client.messages, content=text, author=client.user, channel=channels['polls'])
-    await client.add_reaction(bot_message, emoji1) # Add emoji to bot message
-    await client.add_reaction(bot_message, emoji2) # Add other emoji to bot message
+        if conf.DEBUG:
+        print(channels)
+    message = await client.send_message(channels['polls'], text)
+    await client.add_reaction(message, emoji1) # Add emoji to bot message
+    await client.add_reaction(message, emoji2) # Add other emoji to bot message
     return
 ```
 ### requirements.txt
